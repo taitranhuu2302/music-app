@@ -6,12 +6,13 @@
 
 <p>To get started with this project, follow these steps:</p>
 
+
 <ol>
 <li><p>Clone the repository</p></li>
-<li><p>Install the dependencies using <strong>`yarn`</strong></p></li>
-<li><p>Run the app in development mode using <strong>`yarn dev`</strong></p></li>
-<li><p>Build the app for production using <strong>`yarn build`</strong></p></li>
-<li><p>Preview the built app using <strong>`yarn preview`</strong></p></li>
+<li><p>Install the dependencies using <code>yarn</code></p></li>
+<li><p>Run the app in development mode using <code>yarn dev</code></p></li>
+<li><p>Build the app for production using <code>yarn build</code></p></li>
+<li><p>Preview the built app using <code>yarn preview</code></p></li>
 </ol>
 
 ### Dependencies
