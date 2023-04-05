@@ -2,10 +2,13 @@
 
 <p>This is a web application for listening to music built using React and Redux Toolkit. The app allows users to search for songs, create playlists, and save favorite songs. It also includes features such as lazy loading of images, pagination, and audio playback.</p>
 
+![image](https://user-images.githubusercontent.com/76210961/229993912-d328199f-c3ad-40f9-896c-d5ad015e37e0.png)
+
+![image](https://user-images.githubusercontent.com/76210961/229993983-f575824d-bae6-4f5d-861f-8c58612f87d6.png)
+
 ### Getting Started
 
 <p>To get started with this project, follow these steps:</p>
-
 
 <ol>
 <li><p>Clone the repository</p></li>
