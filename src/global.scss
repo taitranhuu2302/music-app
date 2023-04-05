@@ -1,0 +1,29 @@
+.text-input {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.25);
+  font-weight: 500;
+  line-height: 24px;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.25);
+  }
+}
+
+.h-content {
+  height: calc(100vh - 75px);
+}
+
+.bg-opacity-ct {
+  background: rgba(255, 255, 255, 0.1);
+
+  .bg-opacity-ct--active {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .07);
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+
+.color-opacity-ct {
+  color: rgba(255, 255, 255, 0.5);
+}
