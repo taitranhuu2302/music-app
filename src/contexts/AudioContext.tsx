@@ -82,7 +82,6 @@ const AudioProvider = ({ children }: IProps) => {
     },
     [data, audioCurrent]
   );
-  console.log('Context');
   return (
     <AudioContext.Provider
       value={{

@@ -19,12 +19,12 @@ export const useGetData = (
     ['GET_DATA_INFORMATION', code],
     (): Promise<ResponseSuccess<SongDataType>> =>
       axiosConfig.get(
-        `https://mp3.zing.vn/xhr/media/get-source?type=audio&key=${code}`
+        `https://corsproxy.io/?${encodeURIComponent('https://mp3.zing.vn/xhr/media/get-source?type=audio&key=' + code)}}`
       ),
     {
       enabled: !!code,
       onSuccess: (data) => {
-        onSuccess && onSuccess(data.data);
+	      onSuccess && onSuccess(data.data);
       },
     }
   );

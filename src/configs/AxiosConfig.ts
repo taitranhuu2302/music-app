@@ -14,6 +14,7 @@ instance.interceptors.response.use(
     }
     // console.log(response.headers['content-type']);
     // console.log(camelizeKeys(response.data));
+	  // get response header
     return response.data ? response.data : response;
   },
   (error) => {}
