@@ -24,7 +24,7 @@ const VolumeSlider: React.FC<IProps> = ({
       <AnimatePresence>
         {open && (
           <motion.div
-            className={`relative h-[100px] w-[23px] flex justify-center`}
+            className={`h-[100px] w-[23px] flex justify-center`}
             initial={{ height: 0 }}
             animate={{ height: '100px', transition: { duration: 0.3 } }}
             exit={{ height: 0 }}
@@ -34,6 +34,7 @@ const VolumeSlider: React.FC<IProps> = ({
               min={min}
               max={max}
               values={values}
+              direction={Direction.Up}
               onChange={(values) => setValues && setValues(values)}
               renderTrack={({ props, children }) => (
                 <div
@@ -59,7 +60,6 @@ const VolumeSlider: React.FC<IProps> = ({
                         max: max,
                         direction: Direction.Up,
                       }),
-                      alignSelf: 'center',
                     }}
                   >
                     {children}
@@ -71,8 +71,8 @@ const VolumeSlider: React.FC<IProps> = ({
                   {...props}
                   style={{
                     ...props.style,
-                    height: '42px',
-                    width: '42px',
+                    height: '10px',
+                    width: '10px',
                     backgroundColor: '#999',
                     display: 'none',
                   }}

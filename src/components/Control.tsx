@@ -25,6 +25,8 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { updateCurrentTime } from '../redux/features/AudioSlice';
 import { TbListDetails } from 'react-icons/all';
 import AudioModal from './Modal/AudioModal';
+import { Tooltip } from 'flowbite-react';
+import { useSearchParams } from 'react-router-dom';
 
 interface IProps {}
 
@@ -44,11 +46,14 @@ const Control: React.FC<IProps> = () => {
     setDuration,
   } = useContext(AudioContext) as AudioContextType;
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const { currentTime } = useAppSelector((state) => state.audio);
+  const { currentTime, currentTimeTemp } = useAppSelector(
+    (state) => state.audio
+  );
   const [openAudioModal, setOpenAudioModal] = useState(false);
   const dispatch = useAppDispatch();
   const [openVolume, setOpenVolume] = useState(false);
   const volumeRef = useRef<HTMLDivElement | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -62,12 +67,30 @@ const Control: React.FC<IProps> = () => {
     audio.setAttribute('crossorigin', 'anonymous');
   }, [sourceCurrent]);
 
+  useEffect(() => {
+    if (currentTimeTemp !== 0) {
+      handleChangeTime(currentTimeTemp);
+    }
+  }, [currentTimeTemp]);
+
   const handleChangeTime = useCallback((time: number) => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.currentTime = time;
     dispatch(updateCurrentTime(time));
   }, []);
+
+  const onToggleModalAudio = (isOpen: boolean) => {
+    setOpenAudioModal(isOpen);
+    if (isOpen) {
+      setSearchParams({
+        state: 'show-lyric',
+      });
+      return;
+    }
+
+    setSearchParams({});
+  };
 
   useEffect(() => {
     if (currentTime >= duration - 1) {
@@ -90,6 +113,13 @@ const Control: React.FC<IProps> = () => {
       setIsPlaying(true);
     }
   };
+
+  useEffect(() => {
+    const state = searchParams.get('state');
+    if (state) {
+      setOpenAudioModal(true);
+    }
+  }, []);
 
   useClickOutside(volumeRef, () => {
     setOpenVolume(false);
@@ -158,12 +188,16 @@ const Control: React.FC<IProps> = () => {
         </div>
       </div>
       <div className={'col-span-2 text-white flex-center gap-3'}>
-        <button onClick={() => setOpenAudioModal(true)}>
-          <TbListDetails size={25} />
-        </button>
-        <button>
-          <AiFillHeart size={25} />
-        </button>
+        <Tooltip content={'Lời bài hát'}>
+          <button onClick={() => onToggleModalAudio(true)}>
+            <TbListDetails size={25} />
+          </button>
+        </Tooltip>
+        <Tooltip content={'Thêm vào danh sách yêu thích'}>
+          <button>
+            <AiFillHeart size={25} />
+          </button>
+        </Tooltip>
         <div className={'relative top-[2px]'} ref={volumeRef}>
           <div className={'absolute bottom-[45px]'}>
             <VolumeSlider
@@ -177,14 +211,16 @@ const Control: React.FC<IProps> = () => {
               }}
             />
           </div>
-          <button onClick={() => setOpenVolume(!openVolume)}>
-            <HiVolumeUp size={25} />
-          </button>
+          <Tooltip content={'Âm thanh'}>
+            <button onClick={() => setOpenVolume(!openVolume)}>
+              <HiVolumeUp size={25} />
+            </button>
+          </Tooltip>
         </div>
       </div>
       <AudioModal
         open={openAudioModal}
-        onClose={() => setOpenAudioModal(false)}
+        onClose={() => onToggleModalAudio(false)}
         handleChangeTime={handleChangeTime}
         handleTogglePlay={handleTogglePlay}
       />
@@ -208,18 +244,22 @@ export const ControlActions = ({ handleTogglePlay }: IControlActions) => {
 
   return (
     <div className={'col-span-2 text-white flex-center gap-3'}>
-      <button onClick={() => setIsRandom(!isRandom)}>
-        <FaRandom
-          size={20}
-          className={twMerge(
-            'hover:text-secondary',
-            isRandom && 'text-secondary'
-          )}
-        />
-      </button>
-      <button onClick={() => handleChooseSong('PREVIOUS')}>
-        <AiFillStepBackward size={28} className={'hover:text-secondary'} />
-      </button>
+      <Tooltip content={'Phát ngẫu nhiên'}>
+        <button onClick={() => setIsRandom(!isRandom)}>
+          <FaRandom
+            size={20}
+            className={twMerge(
+              'hover:text-secondary',
+              isRandom && 'text-secondary'
+            )}
+          />
+        </button>
+      </Tooltip>
+      <Tooltip content={'Bài trước'}>
+        <button onClick={() => handleChooseSong('PREVIOUS')}>
+          <AiFillStepBackward size={28} className={'hover:text-secondary'} />
+        </button>
+      </Tooltip>
       <button onClick={handleTogglePlay}>
         {!isPlaying ? (
           <AiFillPlayCircle size={35} className={'hover:text-secondary'} />
@@ -227,18 +267,22 @@ export const ControlActions = ({ handleTogglePlay }: IControlActions) => {
           <AiFillPauseCircle size={35} className={'hover:text-secondary'} />
         )}
       </button>
-      <button onClick={() => handleChooseSong('NEXT')}>
-        <AiFillStepForward size={28} className={'hover:text-secondary'} />
-      </button>
-      <button onClick={() => setIsLoop(!isLoop)}>
-        <ImLoop
-          size={20}
-          className={twMerge(
-            'hover:text-secondary',
-            isLoop && 'text-secondary'
-          )}
-        />
-      </button>
+      <Tooltip content={'Bài tiếp theo'}>
+        <button onClick={() => handleChooseSong('NEXT')}>
+          <AiFillStepForward size={28} className={'hover:text-secondary'} />
+        </button>
+      </Tooltip>
+      <Tooltip content={'Lặp lại'}>
+        <button onClick={() => setIsLoop(!isLoop)}>
+          <ImLoop
+            size={20}
+            className={twMerge(
+              'hover:text-secondary',
+              isLoop && 'text-secondary'
+            )}
+          />
+        </button>
+      </Tooltip>
     </div>
   );
 };

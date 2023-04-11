@@ -6,6 +6,8 @@ import AudioProvider from './contexts/AudioContext';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { Toaster } from 'react-hot-toast';
+import { RouterProvider } from 'react-router-dom';
+import routes from './routes';
 
 interface IProps {}
 
@@ -22,9 +24,7 @@ const App: React.FC<IProps> = () => {
     <>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <AudioProvider>
-            <HomePage />
-          </AudioProvider>
+          <RouterProvider router={routes} />
           <Toaster
             position={'top-right'}
             toastOptions={{

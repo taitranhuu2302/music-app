@@ -1,13 +1,17 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useContext } from 'react';
-import { AudioContext, AudioContextType } from '../../contexts/AudioContext';
+import React, { useContext, useState } from 'react';
+import { AudioContext, AudioContextType } from '../../../contexts/AudioContext';
 import { FiChevronDown } from 'react-icons/all';
-import { ControlActions } from '../Control';
-import { convertSecondToMinute } from '../../utils';
-import Slider from '../Slider/Slider';
-import { updateCurrentTime } from '../../redux/features/AudioSlice';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { ControlActions } from '../../Control';
+import { convertSecondToMinute } from '../../../utils';
+import Slider from '../../Slider/Slider';
+import { updateCurrentTime } from '../../../redux/features/AudioSlice';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import toast from 'react-hot-toast';
+import ListMusic from './ListMusic';
+import { TAB_AUDIO_MODAL, TabAudioActiveType } from '../../../constants';
+import { twMerge } from 'tailwind-merge';
+import Lyric from '../../Lyric';
 
 interface IProps {
   open: boolean;
@@ -22,11 +26,10 @@ const AudioModal: React.FC<IProps> = ({
   handleChangeTime,
   handleTogglePlay,
 }) => {
-  const { duration, sourceCurrent } = useContext(
-    AudioContext
-  ) as AudioContextType;
+  const { duration } = useContext(AudioContext) as AudioContextType;
   const { currentTime } = useAppSelector((state) => state.audio);
   const dispatch = useAppDispatch();
+  const [tabActive, setTabActive] = useState<TabAudioActiveType>('Lyric');
 
   return (
     <>
@@ -55,21 +58,18 @@ const AudioModal: React.FC<IProps> = ({
                       'rounded-full w-fit flex gap-2 bg-opacity-ct p-1'
                     }
                   >
-                    <li
-                      className={
-                        'color-opacity-ct cursor-pointer py-[3px] px-[50px] w-fit rounded-full font-bold bg-opacity-ct--active'
-                      }
-                    >
-                      Danh sách phát
-                    </li>
-                    <li
-                      className={
-                        'color-opacity-ct cursor-pointer py-[3px] px-[50px] w-fit rounded-full font-bold'
-                      }
-                      onClick={() => toast.error('Tính năng đang phát triển')}
-                    >
-                      Lời bài hát
-                    </li>
+                    {TAB_AUDIO_MODAL.map((item) => (
+                      <li
+                        key={item.id}
+                        className={twMerge(
+                          'color-opacity-ct cursor-pointer py-[3px] px-[50px] w-fit rounded-full font-bold',
+                          tabActive === item.type && 'bg-opacity-ct--active'
+                        )}
+                        onClick={() => setTabActive(item.type)}
+                      >
+                        {item.name}
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 <div className={'flex-1 flex items-center justify-end'}>
@@ -83,8 +83,9 @@ const AudioModal: React.FC<IProps> = ({
                   </button>
                 </div>
               </div>
-              <div className={'flex-grow flex-center'}>
-                <SongItem song={sourceCurrent} />
+              <div className={'flex-grow'}>
+                {tabActive === 'List' && <ListMusic />}
+                {tabActive === 'Lyric' && <Lyric />}
               </div>
               <div className={'py-5 flex-center flex-col'}>
                 {/*<div className={'mb-2 flex-center gap-2.5'}>*/}
@@ -126,33 +127,6 @@ const AudioModal: React.FC<IProps> = ({
         )}
       </AnimatePresence>
     </>
-  );
-};
-
-interface ISongItem {
-  song?: SongDataType;
-}
-
-const SongItem = ({ song }: ISongItem) => {
-  return (
-    <div>
-      <div className={'w-[400px] h-[400px]'}>
-        <img
-          src={
-            song?.album.thumbnailMedium ??
-            'https://photo-resize-zmp3.zmdcdn.me/'
-          }
-          alt=""
-          className={'object-cover w-full h-full rounded-lg'}
-        />
-      </div>
-      <div className={'flex-center mt-5 flex flex-col'}>
-        <p className={'text-[24px] font-bold text-white'}>{song?.name}</p>
-        <p className={'text-[14px] mb-1 text-[hsla(0,0%,100%,.8)]'}>
-          {song?.artistsNames}
-        </p>
-      </div>
-    </div>
   );
 };
 

@@ -51,7 +51,7 @@ const AudioProvider = ({ children }: IProps) => {
   }, []);
 
   useEffect(() => {
-    setAudioCurrent(data?.data.song[2] ?? null);
+    setAudioCurrent(data?.data.song[0] ?? null);
   }, [data]);
 
   const handleChooseSong = useCallback(

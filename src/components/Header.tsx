@@ -33,7 +33,7 @@ const Input = () => {
       </button>
       <input
         type="text"
-        className={'bg-transparent flex-grow outline-none text-input'}
+        className={'bg-transparent flex-grow outline-none text-input border-none focus:border-none focus:outline-none focus:ring-0 focus:shadow-none'}
         placeholder={'Search, Songs, Genre, Album, Artists'}
       />
     </div>

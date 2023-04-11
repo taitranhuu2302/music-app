@@ -19,12 +19,14 @@ export const useGetData = (
     ['GET_DATA_INFORMATION', code],
     (): Promise<ResponseSuccess<SongDataType>> =>
       axiosConfig.get(
-        `https://corsproxy.io/?${encodeURIComponent('https://mp3.zing.vn/xhr/media/get-source?type=audio&key=' + code)}`
+        `https://corsproxy.io/?${encodeURIComponent(
+          'https://mp3.zing.vn/xhr/media/get-source?type=audio&key=' + code
+        )}`
       ),
     {
       enabled: !!code,
       onSuccess: (data) => {
-	      onSuccess && onSuccess(data.data);
+        onSuccess && onSuccess(data.data);
       },
     }
   );
@@ -36,4 +38,11 @@ export const useSearch = () => {
       `https://cors-anywhere.herokuapp.com/http://ac.mp3.zing.vn/complete?type=artist,song,key,code&num=500&query=Anh Thế Giới Và Em`
     )
   );
+};
+
+export const useGetLyric = (url?: string, onSuccess?: (data: any) => void) => {
+  return useQuery(['GET_LYRIC_FROM_MUSIC', url], () => axiosConfig.get(url), {
+    enabled: !!url,
+    onSuccess: onSuccess && onSuccess,
+  });
 };
