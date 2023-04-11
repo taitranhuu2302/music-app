@@ -20,6 +20,8 @@ const queryClient = new QueryClient({
 });
 
 const App: React.FC<IProps> = () => {
+  console.log('Nghe nhạc vui vẻ');
+  
   return (
     <>
       <QueryClientProvider client={queryClient}>
