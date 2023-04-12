@@ -28,7 +28,6 @@ const Sidebar: React.FC<IProps> = () => {
     return (
       <ul className={'mt-5 flex flex-col gap-2'}>
         {SIDEBAR_NAV.map((item) => {
-          console.log(searchParams.get('active') === item.active);
           return (
             <li
               key={item.id}

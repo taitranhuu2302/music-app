@@ -28,6 +28,10 @@ import { TbListDetails } from 'react-icons/all';
 import AudioModal from './Modal/AudioModal';
 import { Tooltip } from 'flowbite-react';
 import { useSearchParams } from 'react-router-dom';
+import { addDoc, collection } from 'firebase/firestore';
+import { firebaseStore } from '../configs/firebase';
+import { FAVORITE_DB } from '../constants/DB';
+import useFavorite from '../hooks/useFavorite';
 
 interface IProps {}
 
@@ -55,6 +59,12 @@ const Control: React.FC<IProps> = () => {
   const [openVolume, setOpenVolume] = useState(false);
   const volumeRef = useRef<HTMLDivElement | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isFavorite, setIsFavorite] = useState(false);
+  const { favorite, onToggleFavorite } = useFavorite();
+
+  useEffect(() => {
+    setIsFavorite(favorite.some((fav) => fav.id === sourceCurrent?.id));
+  }, [favorite, sourceCurrent]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -126,8 +136,12 @@ const Control: React.FC<IProps> = () => {
     setOpenVolume(false);
   });
 
-  const handleAddFavorite = () => {
-    console.log(sourceCurrent);
+  const handleAddFavorite = async () => {
+    try {
+      await onToggleFavorite(sourceCurrent);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const renderAudio = useMemo(() => {
@@ -213,7 +227,10 @@ const Control: React.FC<IProps> = () => {
           </button>
         </Tooltip>
         <Tooltip content={'Thêm vào danh sách yêu thích'}>
-          <button onClick={handleAddFavorite} className={'hidden md:block'}>
+          <button
+            onClick={handleAddFavorite}
+            className={twMerge('hidden md:block', isFavorite && 'text-primary')}
+          >
             <AiFillHeart size={25} />
           </button>
         </Tooltip>

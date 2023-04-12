@@ -72,12 +72,6 @@ const Song: React.FC<IProps> = ({ song, index }) => {
         >
           {convertSecondToMinute(song.duration)}
         </p>
-        <button>
-          <AiOutlineHeart
-            className={twMerge('text-[#afb6b2]', isCurrent && 'text-secondary')}
-            size={20}
-          />
-        </button>
       </div>
     </div>
   );

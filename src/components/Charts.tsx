@@ -21,7 +21,7 @@ const Charts: React.FC<IProps> = () => {
 
     return result;
   }, [data, keyword]);
-  // const { data: search } = useSearch(keyword);
+  
   const { audioCurrent } = useContext(AudioContext) as AudioContextType;
 
   useEffect(() => {
