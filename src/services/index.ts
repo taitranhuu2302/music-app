@@ -32,16 +32,23 @@ export const useGetData = (
   );
 };
 
-export const useSearch = () => {
-  return useQuery(['SEARCH_AUDIO'], () =>
-    axiosConfig.get(
-      `https://cors-anywhere.herokuapp.com/http://ac.mp3.zing.vn/complete?type=artist,song,key,code&num=500&query=Anh Thế Giới Và Em`
-    )
+export const useSearch = (keyword: string) => {
+  return useQuery(
+    ['SEARCH_AUDIO', keyword],
+    () =>
+      axiosConfig.get(
+        `https://corsproxy.io/?${encodeURIComponent(
+          `http://ac.mp3.zing.vn/complete?type=artist,song,key,code&num=10&query=${keyword}`
+        )}`
+      ),
+    {
+      enabled: !!keyword,
+    }
   );
 };
 
 export const useGetLyric = (url?: string, onSuccess?: (data: any) => void) => {
-  return useQuery(['GET_LYRIC_FROM_MUSIC', url], () => axiosConfig.get(url), {
+  return useQuery(['GET_LYRIC_FROM_MUSIC', url], () => axiosConfig.get(url!), {
     enabled: !!url,
     onSuccess: onSuccess && onSuccess,
   });

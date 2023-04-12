@@ -14,7 +14,7 @@ const Sidebar: React.FC<IProps> = () => {
             <li
               key={item.id}
               className={twMerge(
-                'text-white flex items-center gap-2.5 p-2 hover:bg-primary rounded transition-all duration-200 cursor-pointer',
+                'text-white flex justify-center items-center gap-2.5 p-2 hover:bg-primary rounded transition-all duration-200 cursor-pointer',
                 index === 0 && 'bg-primary'
               )}
               onClick={() =>
@@ -22,7 +22,9 @@ const Sidebar: React.FC<IProps> = () => {
               }
             >
               {item.icon}
-              <span className={'text-lg font-semibold'}>{item.name}</span>
+              <span className={'text-lg font-semibold hidden lg:block'}>
+                {item.name}
+              </span>
             </li>
           );
         })}
@@ -31,7 +33,7 @@ const Sidebar: React.FC<IProps> = () => {
   }, []);
 
   return (
-    <div className={'w-[300px] h-content bg-[#231B2E] p-5'}>
+    <div className={'w-[100px] lg:w-[300px] h-content bg-[#231B2E] p-5'}>
       <img src="/logo.png" alt="" className={'cursor-pointer'} />
       {renderListSidebar}
     </div>

@@ -5,6 +5,26 @@ type ResponseSuccess<T> = {
   timestamp: number;
 };
 
+type SongSearchType = {
+  thumb: string;
+  artist: string;
+  artistIds: string;
+  duration: string;
+  block: string;
+  id: string;
+  hasVideo: string;
+  streamingStatus: string;
+  thumbVideo: string;
+  genreIds: string;
+  disable_platform_web: string;
+  disSPlatform: string;
+  is_official: string;
+  radioPid: string;
+  zing_choice: string;
+  name: string;
+  disDPlatform: string;
+};
+
 type SongDataType = {
   id: string;
   name: string;

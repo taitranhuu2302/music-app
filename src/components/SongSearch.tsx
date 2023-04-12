@@ -1,17 +1,17 @@
 import React, { useContext } from 'react';
-import { AiOutlineHeart } from 'react-icons/ai';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { convertSecondToMinute } from '../utils';
 import { AudioContext, AudioContextType } from '../contexts/AudioContext';
 import { FaRegPauseCircle } from 'react-icons/fa';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { twMerge } from 'tailwind-merge';
+import { convertSecondToMinute } from '../utils';
+import { AiOutlineHeart } from 'react-icons/ai';
 
 interface IProps {
-  song: SongType;
+  song: SongSearchType;
   index: number;
 }
 
-const Song: React.FC<IProps> = ({ song, index }) => {
+const SongSearch: React.FC<IProps> = ({ song, index }) => {
   const { handleChooseAudio, audioCurrent } = useContext(
     AudioContext
   ) as AudioContextType;
@@ -19,8 +19,8 @@ const Song: React.FC<IProps> = ({ song, index }) => {
 
   return (
     <div
-      className={'grid grid-cols-4 min-w-[900px] items-center cursor-pointer'}
-      onClick={() => handleChooseAudio(song)}
+      className={'grid grid-cols-4 items-center cursor-pointer'}
+      // onClick={() => handleChooseAudio(song)}
     >
       <div className={'flex items-center'}>
         <p className={'text-white font-semibold mr-3'}>
@@ -34,7 +34,7 @@ const Song: React.FC<IProps> = ({ song, index }) => {
           )}
         </p>
         <LazyLoadImage
-          src={song.thumbnail}
+          src={`https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/${song.thumb}`}
           alt=""
           className={'w-[40px] h-[40px] object-cover rounded mr-3'}
         />
@@ -53,7 +53,7 @@ const Song: React.FC<IProps> = ({ song, index }) => {
           isCurrent && 'text-secondary'
         )}
       >
-        {song.artistsNames}
+        {/*{song}*/}
       </p>
       <p
         className={twMerge(
@@ -61,7 +61,7 @@ const Song: React.FC<IProps> = ({ song, index }) => {
           isCurrent && 'text-secondary'
         )}
       >
-        {song.album?.name}
+        {/*{song.album?.name}*/}
       </p>
       <div className={'flex-center gap-2.5'}>
         <p
@@ -70,7 +70,7 @@ const Song: React.FC<IProps> = ({ song, index }) => {
             isCurrent && 'text-secondary'
           )}
         >
-          {convertSecondToMinute(song.duration)}
+          {/*{convertSecondToMinute(song.duration)}*/}
         </p>
         <button>
           <AiOutlineHeart
@@ -83,4 +83,4 @@ const Song: React.FC<IProps> = ({ song, index }) => {
   );
 };
 
-export default Song;
+export default SongSearch;

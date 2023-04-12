@@ -9,7 +9,7 @@ export const SIDEBAR_NAV = [
   },
   {
     id: uuid(),
-    name: 'Tìm kiếm',
+    name: 'Yêu thích',
     icon: <HiOutlineChartSquareBar size={20} />,
   },
 ];

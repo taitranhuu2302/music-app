@@ -128,7 +128,7 @@ const Control: React.FC<IProps> = () => {
   return (
     <div
       className={
-        'fixed h-[75px] w-full border-t border-[#7a857f] bottom-0 left-0 bg-[#130c1c] grid grid-cols-12'
+        'fixed h-[75px] w-full border-t border-[#7a857f] bottom-0 left-0 bg-[#130c1c] grid grid-cols-12 px-2.5 gap-2.5'
       }
     >
       <audio
@@ -150,8 +150,8 @@ const Control: React.FC<IProps> = () => {
         }}
         onPause={() => setIsPlaying(false)}
       />
-      <ControlActions handleTogglePlay={handleTogglePlay} />
-      <div className={'col-span-8 text-white flex items-center gap-10'}>
+      <ControlActions isHidden={true} handleTogglePlay={handleTogglePlay} />
+      <div className={'col-span-10 md:col-span-6 lg:col-span-8 text-white flex items-center gap-10'}>
         <img
           src={
             audioCurrent?.thumbnail ||
@@ -187,19 +187,19 @@ const Control: React.FC<IProps> = () => {
           </div>
         </div>
       </div>
-      <div className={'col-span-2 text-white flex-center gap-3'}>
+      <div className={'lg:col-span-2 md:col-span-3 col-span-2 text-white flex-center gap-3'}>
         <Tooltip content={'Lời bài hát'}>
           <button onClick={() => onToggleModalAudio(true)}>
             <TbListDetails size={25} />
           </button>
         </Tooltip>
         <Tooltip content={'Thêm vào danh sách yêu thích'}>
-          <button>
+          <button className={'hidden md:block'}>
             <AiFillHeart size={25} />
           </button>
         </Tooltip>
-        <div className={'relative top-[2px]'} ref={volumeRef}>
-          <div className={'absolute bottom-[45px]'}>
+        <div className={'relative top-[2px] hidden md:block'} ref={volumeRef}>
+          <div  className={'absolute bottom-[45px]'}>
             <VolumeSlider
               values={[volume]}
               open={openVolume}
@@ -230,9 +230,10 @@ const Control: React.FC<IProps> = () => {
 
 interface IControlActions {
   handleTogglePlay: () => void;
+  isHidden?: boolean;
 }
 
-export const ControlActions = ({ handleTogglePlay }: IControlActions) => {
+export const ControlActions = ({ handleTogglePlay, isHidden = false }: IControlActions) => {
   const {
     handleChooseSong,
     isRandom,
@@ -243,7 +244,7 @@ export const ControlActions = ({ handleTogglePlay }: IControlActions) => {
   } = useContext(AudioContext) as AudioContextType;
 
   return (
-    <div className={'col-span-2 text-white flex-center gap-3'}>
+    <div className={twMerge('text-white flex-center gap-3', isHidden && 'hidden md:flex lg:col-span-2 md:col-span-3')}>
       <Tooltip content={'Phát ngẫu nhiên'}>
         <button onClick={() => setIsRandom(!isRandom)}>
           <FaRandom

@@ -15,7 +15,7 @@ const AppLayout: React.FC<IProps> = ({ children }) => {
         {/*region Sidebar*/}
         <Sidebar />
         {/*endregion*/}
-        <div className={'h-content w-full flex flex-col p-5 overflow-y-auto'}>
+        <div className={'h-content w-full flex flex-col p-2 md:p-5 overflow-y-auto overflow-x-hidden'}>
           <Header />
           {children}
         </div>

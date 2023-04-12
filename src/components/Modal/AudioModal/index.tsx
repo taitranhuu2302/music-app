@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import ListMusic from './ListMusic';
 import { TAB_AUDIO_MODAL, TabAudioActiveType } from '../../../constants';
 import { twMerge } from 'tailwind-merge';
-import Lyric from '../../Lyric';
+import Lyric from './Lyric';
 
 interface IProps {
   open: boolean;
@@ -45,14 +45,14 @@ const AudioModal: React.FC<IProps> = ({
             <AudioModalBG />
             <div className={'relative z-10 h-full flex flex-col'}>
               <div className={'flex p-5 flex-wrap'}>
-                <div className={'flex-1'}>
+                <div className={'flex-grow'}>
                   <img
                     src="https://zjs.zmdcdn.me/zmp3-desktop/dev/119956/static/media/icon_zing_mp3_60.f6b51045.svg"
                     alt=""
                     className={'w-[45px] h-[45px]'}
                   />
                 </div>
-                <div className={'flex-1 flex-center'}>
+                <div className={'flex-grow flex-center'}>
                   <ul
                     className={
                       'rounded-full w-fit flex gap-2 bg-opacity-ct p-1'
@@ -62,7 +62,7 @@ const AudioModal: React.FC<IProps> = ({
                       <li
                         key={item.id}
                         className={twMerge(
-                          'color-opacity-ct cursor-pointer py-[3px] px-[50px] w-fit rounded-full font-bold',
+                          'color-opacity-ct cursor-pointer py-[3px] px-[10px] md:px-[50px] w-fit rounded-full font-bold',
                           tabActive === item.type && 'bg-opacity-ct--active'
                         )}
                         onClick={() => setTabActive(item.type)}
@@ -72,7 +72,7 @@ const AudioModal: React.FC<IProps> = ({
                     ))}
                   </ul>
                 </div>
-                <div className={'flex-1 flex items-center justify-end'}>
+                <div className={'flex-grow flex items-center justify-end'}>
                   <button
                     className={
                       'bg-opacity-ct rounded-full pt-[2px] w-[45px] h-[45px] flex-center hover:opacity-80'
@@ -87,7 +87,7 @@ const AudioModal: React.FC<IProps> = ({
                 {tabActive === 'List' && <ListMusic />}
                 {tabActive === 'Lyric' && <Lyric />}
               </div>
-              <div className={'py-5 flex-center flex-col'}>
+              <div className={'py-5 px-2.5 flex-center flex-col'}>
                 {/*<div className={'mb-2 flex-center gap-2.5'}>*/}
                 {/*  <p className={'text-center text-lg font-semibold text-white'}>*/}
                 {/*    {sourceCurrent?.name}*/}
