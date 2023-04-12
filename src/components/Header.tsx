@@ -1,23 +1,53 @@
-import React, { useState, useTransition } from 'react';
+import React, { useCallback, useContext, useState, useTransition } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { handleSearch } from '../redux/features/SearchSlice';
+import { Avatar, Button, Dropdown } from 'flowbite-react';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from '../configs/firebase';
+import { EMAIL_KEY } from '../constants/Authentication';
+import { AuthContext, AuthContextType } from '../contexts/AuthContext';
 
 interface IProps {}
 
 const Header: React.FC<IProps> = () => {
+  const { authCurrent } = useContext(AuthContext) as AuthContextType;
+  const handleLogin = async () => {
+    try {
+      const data = await signInWithPopup(auth, provider);
+      if (typeof data.user.email === 'string') {
+        localStorage.setItem(EMAIL_KEY, data.user.email);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <div className={'flex justify-between gap-2.5'}>
         <Input />
-        <div className={'flex items-center gap-2.5 cursor-pointer hidden sm:flex'}>
-          <p className={'text-white text-xl font-semibold hidden xl:block'}>Tran Huu Tai</p>
-          <img
-            src="https://scontent.fdad3-1.fna.fbcdn.net/v/t1.18169-9/18556006_104946380091976_9183765241575257849_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=Ot3bmnI-w54AX-Af3i_&_nc_ht=scontent.fdad3-1.fna&oh=00_AfDusXtfn-Dmnv8mVH8OdBHx7xQjLfB9D6_OxGL7uV4s7A&oe=6451A287"
-            alt=""
-            className={'rounded-full min-w-[45px] min-h-[45px] max-w-[45px] max-h-[45px]'}
-          />
-        </div>
+        {!authCurrent ? (
+          <div
+            className={
+              'flex items-center gap-2.5 cursor-pointer hidden sm:flex'
+            }
+            onClick={handleLogin}
+          >
+            <Avatar rounded={true} />
+          </div>
+        ) : (
+          <div
+            className={
+              'flex items-center gap-2.5 cursor-pointer hidden sm:flex'
+            }
+          >
+            <p className={'text-white font-semibold'}>
+              {authCurrent.displayName}
+            </p>
+            <Avatar img={authCurrent.photoURL ?? ''} rounded={true} />
+          </div>
+        )}
       </div>
     </>
   );

@@ -8,6 +8,7 @@ import { store } from './redux/store';
 import { Toaster } from 'react-hot-toast';
 import { RouterProvider } from 'react-router-dom';
 import routes from './routes';
+import AuthProvider from './contexts/AuthContext';
 
 interface IProps {}
 
@@ -21,18 +22,22 @@ const queryClient = new QueryClient({
 
 const App: React.FC<IProps> = () => {
   console.log('Nghe nhạc vui vẻ');
-  
+
   return (
     <>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <RouterProvider router={routes} />
-          <Toaster
-            position={'top-right'}
-            toastOptions={{
-              duration: 3000,
-            }}
-          />
+          <AuthProvider>
+            <AudioProvider>
+              <RouterProvider router={routes} />
+            </AudioProvider>
+            <Toaster
+              position={'top-right'}
+              toastOptions={{
+                duration: 3000,
+              }}
+            />
+          </AuthProvider>
         </Provider>
       </QueryClientProvider>
     </>

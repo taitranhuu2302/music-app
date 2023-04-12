@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import axiosConfig from '../configs/AxiosConfig';
+import axiosConfig from '../configs/axiosConfig';
 
 export const useGetCharts = () => {
   return useQuery(

@@ -6,66 +6,26 @@ import SongSkeleton from '../components/SongSkeleton';
 import { AudioContext, AudioContextType } from '../contexts/AudioContext';
 import { useAppSelector } from '../redux/hooks';
 import SongSearch from '../components/SongSearch';
+import Charts from '../components/Charts';
+import { useSearchParams } from 'react-router-dom';
+import Favorite from '../components/Favorite';
 
 interface IProps {}
 
 const HomePage: React.FC<IProps> = () => {
-  const { data, isLoading } = useGetCharts();
-  const songRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const { keyword } = useAppSelector((state) => state.search);
+  const [searchParams] = useSearchParams();
 
-  const songs = useMemo((): SongType[] => {
-    let result: SongType[] = [];
-
-    if (!data) return result;
-
-    result = data.data.song.filter((item) => item.name.includes(keyword));
-
-    return result;
-  }, [data, keyword]);
-  // const { data: search } = useSearch(keyword);
-  const { audioCurrent } = useContext(AudioContext) as AudioContextType;
-
-  useEffect(() => {
-    if (audioCurrent) {
-      // Tìm phần tử HTML của bài hát hiện tại
-      const currentSongRef = songRefs.current.find(
-        (ref) => ref && ref.id === `song-${audioCurrent.id}`
-      );
-
-      // Cuộn đến phần tử bài hát đó
-      if (currentSongRef) {
-        currentSongRef.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+  const renderTabs = useMemo(() => {
+    const active = searchParams.get('active');
+    if (active === 'favorite') {
+      return <Favorite />;
     }
-  }, [audioCurrent]);
+    return <Charts />;
+  }, [searchParams]);
 
   return (
     <>
-      <AppLayout>
-        <div className={'mt-5'}>
-          <p className={'text-white font-semibold text-lg'}>Bảng xếp hạng</p>
-          <div className={'flex flex-col overflow-x-hidden gap-5 mt-5'}>
-            {isLoading
-              ? Array(10)
-                  .fill(0)
-                  .map((_, index) => <SongSkeleton key={index} />)
-              : songs.map((song, index) => {
-                  return (
-                    <div
-                      id={`song-${song.id}`}
-                      ref={(el) => {
-                        songRefs.current[index] = el;
-                      }}
-                      key={song.id}
-                    >
-                      <Song index={index + 1} song={song} />
-                    </div>
-                  );
-                })}
-          </div>
-        </div>
-      </AppLayout>
+      <AppLayout>{renderTabs}</AppLayout>
     </>
   );
 };
