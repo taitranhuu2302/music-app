@@ -14,7 +14,7 @@ import {
 import { FAVORITE_DB } from '../constants/DB';
 
 const useFavorite = () => {
-  const [favorite, setFavorite] = useState<SongDataType[]>([]);
+  const [favorite, setFavorite] = useState<SongType[]>([]);
 
   useEffect(() => {
     getFavorite();
@@ -26,15 +26,14 @@ const useFavorite = () => {
       setFavorite(
         querySnapshot.docs.map((doc) => ({
           ...doc.data(),
-        })) as SongDataType[]
+        })) as SongType[]
       );
     });
   };
 
   const onToggleFavorite = useCallback(
-    async (song?: SongDataType) => {
+    async (song: SongType) => {
       try {
-        if (!song) return;
         const q = query(
           collection(firebaseStore, FAVORITE_DB),
           where('id', '==', song.id)

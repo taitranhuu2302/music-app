@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { useGetCharts, useGetData } from '../services';
 import { useAudio } from '../hooks/useAudio';
+import toast from 'react-hot-toast';
 
 export type ChooseSongType = 'NEXT' | 'PREVIOUS' | 'RANDOM';
 
@@ -43,6 +44,10 @@ const AudioProvider = ({ children }: IProps) => {
   const { data } = useGetCharts();
 
   useGetData(audioCurrent?.code, (song) => {
+    if (!song.source['128']) {
+      toast.error('Bài nhạc này đang có vấn đề');
+      return;
+    }
     setSourceCurrent(song);
   });
 

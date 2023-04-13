@@ -137,11 +137,8 @@ const Control: React.FC<IProps> = () => {
   });
 
   const handleAddFavorite = async () => {
-    try {
-      await onToggleFavorite(sourceCurrent);
-    } catch (e) {
-      console.log(e);
-    }
+    if (!audioCurrent) return;
+    await onToggleFavorite(audioCurrent);
   };
 
   const renderAudio = useMemo(() => {

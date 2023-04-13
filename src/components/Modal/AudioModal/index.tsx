@@ -132,7 +132,7 @@ const AudioModal: React.FC<IProps> = ({
 
 const AudioModalBG = () => {
   const { sourceCurrent } = useContext(AudioContext) as AudioContextType;
-
+  
   return (
     <div className={'absolute top-0 left-0 w-full h-full'}>
       <div
@@ -149,7 +149,10 @@ const AudioModalBG = () => {
         style={{
           width: '100%',
           height: '100%',
-          backgroundImage: `url(${sourceCurrent?.album.thumbnailMedium})`,
+          backgroundImage: `url(${
+            sourceCurrent?.album.thumbnailMedium ??
+            'https://photo-resize-zmp3.zmdcdn.me/'
+          })`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',

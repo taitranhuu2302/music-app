@@ -17,7 +17,7 @@ const Charts: React.FC<IProps> = () => {
 
     if (!data) return result;
 
-    result = data.data.song.filter((item) => item.name.includes(keyword));
+    result = data.data.song.filter((item) => item.name.toLowerCase().includes(keyword.toLowerCase()));
 
     return result;
   }, [data, keyword]);
